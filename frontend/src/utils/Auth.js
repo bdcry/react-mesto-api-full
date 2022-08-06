@@ -63,7 +63,7 @@ class Auth {
   }
   
   const auth = new Auth({
-    baseUrl: 'https://auth.nomoreparties.co'
+    baseUrl: 'https://api.somethingawesome.students.nomoredomains.sbs/'
   })
   
   export default auth 
