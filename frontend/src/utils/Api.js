@@ -71,7 +71,4 @@ export class Api {
 
 export const api = new Api({
   baseUrl: "https://api.somethingawesome.students.nomoredomains.sbs/",
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
