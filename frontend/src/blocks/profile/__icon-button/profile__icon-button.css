@@ -1,0 +1,10 @@
+.profile__icon-button {
+  margin: auto;
+}
+
+@media (max-width: 740px) {
+  .profile__icon-button {
+    width: 7.5px;
+    height: 7.5px;
+  }
+}

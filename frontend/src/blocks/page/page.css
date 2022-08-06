@@ -1,0 +1,14 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  margin: 0 45px;
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  min-height: 100vh;
+}
+
+@media (max-width: 400px) {
+  .page {
+    margin: 0 auto;
+  }
+}
