@@ -5,7 +5,7 @@ class Auth {
   
     register(password, email) {
       return fetch(
-        `${this._baseUrl}/signup`,
+        `${this._baseUrl}/sign-up`,
         {
           method: 'POST',
           headers: {
@@ -28,7 +28,7 @@ class Auth {
   
     login(password, email) {
       return fetch(
-        `${this._baseUrl}/signin`,
+        `${this._baseUrl}/sign-in`,
         {
           method: 'POST',
           headers: {
@@ -51,6 +51,7 @@ class Auth {
         {
           method: 'GET',
           headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           }

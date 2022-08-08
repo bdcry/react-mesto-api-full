@@ -54,6 +54,75 @@ function App() {
     }
   }, [loggedIn]);
 
+    function handleRegister(password, email) {
+    auth
+      .register(password, email)
+      .then((res) => {
+        if (res) {
+          setMessage({
+            imgInfo: Ok,
+            text: "Вы успешно зарегистрировались!",
+          });
+          history.push("/sign-in");
+        }
+      })
+      .catch(
+        setMessage({
+          imgInfo: Err,
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+        })
+      )
+      .finally(() => setIsInfoTooltipPopupOpen(true));
+  }
+
+  function handleLogin(password, email) {
+    auth
+      .login(password, email)
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("token", res.token);
+          setUserEmail(email);
+          setLoggedIn(true);
+          history.push("/");
+        } else {
+          setMessage({
+            imgInfo: Err,
+            text: "Что-то пошло не так! Попробуйте ещё раз.",
+          });
+          setIsInfoTooltipPopupOpen(true);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handlTokenCheck() {
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        auth
+          .tokenValid(token)
+          .then((res) => {
+            if (res) {
+              setLoggedIn(true);
+              setUserEmail(res.data.email);
+              history.push("/");
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    }
+  }
+
+  function handleSignOut() {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+    history.push("/sign-in");
+  }
+
+  React.useEffect(() => {
+    handlTokenCheck();
+  }, []);
+
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
@@ -177,75 +246,6 @@ function App() {
     setIsConfirmDeleteCard(false);
     setIsInfoTooltipPopupOpen(false);
   }
-
-  function handleRegister(password, email) {
-    auth
-      .register(password, email)
-      .then((res) => {
-        if (res) {
-          setMessage({
-            imgInfo: Ok,
-            text: "Вы успешно зарегистрировались!",
-          });
-          history.push("/sign-in");
-        }
-      })
-      .catch(
-        setMessage({
-          imgInfo: Err,
-          text: "Что-то пошло не так! Попробуйте ещё раз.",
-        })
-      )
-      .finally(() => setIsInfoTooltipPopupOpen(true));
-  }
-
-  function handleLogin(password, email) {
-    auth
-      .login(password, email)
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem("token", res.token);
-          setUserEmail(email);
-          setLoggedIn(true);
-          history.push("/");
-        } else {
-          setMessage({
-            imgInfo: Err,
-            text: "Что-то пошло не так! Попробуйте ещё раз.",
-          });
-          setIsInfoTooltipPopupOpen(true);
-        }
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function handlTokenCheck() {
-    if (localStorage.getItem("token")) {
-      const token = localStorage.getItem("token");
-      if (token) {
-        auth
-          .tokenValid(token)
-          .then((res) => {
-            if (res) {
-              setLoggedIn(true);
-              setUserEmail(res.data.email);
-              history.push("/");
-            }
-          })
-          .catch((err) => console.log(err));
-      }
-    }
-  }
-
-  function handleSignOut() {
-    localStorage.removeItem("token");
-    setLoggedIn(false);
-    history.push("/sign-in");
-  }
-
-  React.useEffect(() => {
-    handlTokenCheck();
-  }, []);
   
   return (
     <CurrentUserContext.Provider value={currentUser}>
