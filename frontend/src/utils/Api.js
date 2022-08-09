@@ -16,11 +16,12 @@ export class Api {
     }).then((res) => this._checkResponse(res));
   }
 
-  getChangeAvatar(link) {
+  getChangeAvatar(data) {
+    console.log(data.avatar);
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify(link),
+      body: JSON.stringify({ avatar: data.avatar }),
     }).then((res) => this._checkResponse(res));
   }
 
@@ -70,5 +71,5 @@ export class Api {
 }
 
 export const api = new Api({
-  baseUrl: "https://api.somethingawesome.students.nomoredomains.sbs/",
+  baseUrl: "https://api.somethingawesome.students.nomoredomains.sbs",
 });

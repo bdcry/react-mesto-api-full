@@ -104,7 +104,7 @@ function App() {
           .then((res) => {
             if (res) {
               setLoggedIn(true);
-              setUserEmail(res.data.email);
+              setUserEmail(res.email);
               history.push("/");
             }
           })
@@ -113,15 +113,15 @@ function App() {
     }
   }
 
+  React.useEffect(() => {
+    handlTokenCheck();
+  }, []);
+  
   function handleSignOut() {
     localStorage.removeItem("token");
     setLoggedIn(false);
     history.push("/sign-in");
   }
-
-  React.useEffect(() => {
-    handlTokenCheck();
-  }, []);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);

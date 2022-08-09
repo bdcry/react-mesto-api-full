@@ -5,10 +5,11 @@ class Auth {
   
     register(password, email) {
       return fetch(
-        `${this._baseUrl}/sign-up`,
+        `${this._baseUrl}/signup`,
         {
           method: 'POST',
           headers: {
+            "Accept": "application/json",
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
@@ -28,10 +29,11 @@ class Auth {
   
     login(password, email) {
       return fetch(
-        `${this._baseUrl}/sign-in`,
+        `${this._baseUrl}/signin`,
         {
           method: 'POST',
           headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
@@ -64,7 +66,7 @@ class Auth {
   }
   
   const auth = new Auth({
-    baseUrl: 'https://api.somethingawesome.students.nomoredomains.sbs/'
+    baseUrl: 'https://api.somethingawesome.students.nomoredomains.sbs'
   })
   
   export default auth 
