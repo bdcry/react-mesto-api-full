@@ -81,7 +81,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 module.exports.patchUserProfile = (req, res, next) => {
   const { name, about } = req.body;
   const userId = req.user._id;
-  User.findOneAndUpdate({ id: userId }, { name, about }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
     .then((data) => {
       res.status(CORRECT_CODE).send(data);
     })
@@ -97,7 +97,7 @@ module.exports.patchUserProfile = (req, res, next) => {
 module.exports.patchUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const userId = req.user._id;
-  User.findOneAndUpdate({ id: userId }, { avatar }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
     .then((data) => {
       res.status(CORRECT_CODE).send(data);
     })

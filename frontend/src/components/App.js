@@ -45,7 +45,7 @@ function App() {
       .then(([userData, initialCards]) => {
         //установка данных пользователя
         setCurrentUser(userData);
-        setCards(initialCards)
+        setCards(initialCards.reverse());
       })
       .catch(err => {
         console.log(err)

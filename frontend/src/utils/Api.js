@@ -1,9 +1,14 @@
 export class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
+  constructor(options) {
+    this._baseUrl = options.baseUrl;
   }
-
+  get _headers() {
+    return {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    }
+  }
+  
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
@@ -16,12 +21,11 @@ export class Api {
     }).then((res) => this._checkResponse(res));
   }
 
-  getChangeAvatar(data) {
-    console.log(data.avatar);
+  getChangeAvatar(link) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify({ avatar: data.avatar }),
+      body: JSON.stringify(link),
     }).then((res) => this._checkResponse(res));
   }
 
@@ -29,7 +33,7 @@ export class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify({ name: data.name, about: data.about }),
+      body: JSON.stringify(data),
     }).then((res) => this._checkResponse(res));
   }
 
@@ -37,7 +41,7 @@ export class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: this._headers,
-      body: JSON.stringify({ name: data.name, link: data.link }),
+      body: JSON.stringify(data),
     }).then((res) => this._checkResponse(res));
   }
 
@@ -49,14 +53,14 @@ export class Api {
   }
 
   getAddLike(id) {
-    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "PUT",
       headers: this._headers,
     }).then((res) => this._checkResponse(res));
   }
 
   getRemoveLike(id) {
-    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => this._checkResponse(res));
