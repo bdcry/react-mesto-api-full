@@ -38,21 +38,48 @@ function App() {
   const [userEmail, setUserEmail] = React.useState(null);
   const history = useHistory();
 
+  
   React.useEffect(() => {
+    handlTokenCheck();
     if (loggedIn) {
-      setIsLoading(true);
-      Promise.all([api.getInitialUser(), api.getInitialCards()])
-        .then(([userData, initialCards]) => {
-          //установка данных пользователя
-          setCurrentUser(userData);
-          setCards(initialCards);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => setIsLoading(false));
+      history.push('/');
+    Promise.all([api.getInitialUser(), api.getInitialCards()])
+      .then(([userData, initialCards]) => {
+        const data = {
+          name: userData.name,
+          about: userData.about,
+          avatar: userData.avatar,
+          _id: userData._id,
+        };
+        setCurrentUser(data);
+        setCards(initialCards);
+      })
+      .catch((err) => console.log(err));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
+
+  function handlTokenCheck() {
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        auth
+          .tokenValid(token)
+          .then((res) => {
+            if (res) {
+              setLoggedIn(true);
+              setUserEmail(res.email);
+              history.push("/");
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    handlTokenCheck();
+  }, []);
 
     function handleRegister(password, email) {
     auth
@@ -94,28 +121,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-
-  function handlTokenCheck() {
-    if (localStorage.getItem("token")) {
-      const token = localStorage.getItem("token");
-      if (token) {
-        auth
-          .tokenValid(token)
-          .then((res) => {
-            if (res) {
-              setLoggedIn(true);
-              setUserEmail(res.email);
-              history.push("/");
-            }
-          })
-          .catch((err) => console.log(err));
-      }
-    }
-  }
-
-  React.useEffect(() => {
-    handlTokenCheck();
-  }, []);
   
   function handleSignOut() {
     localStorage.removeItem("token");
@@ -124,7 +129,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     if (!isLiked) {
       api

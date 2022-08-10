@@ -1,7 +1,7 @@
 export class Api {
-  constructor(options) {
-    this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
+  constructor({ baseUrl, headers }) {
+    this._baseUrl = baseUrl;
+    this._headers = headers;
   }
 
   getInitialCards() {
@@ -29,7 +29,7 @@ export class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify(data),
+      body: JSON.stringify({ name: data.name, about: data.about }),
     }).then((res) => this._checkResponse(res));
   }
 
@@ -37,7 +37,7 @@ export class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: this._headers,
-      body: JSON.stringify(data),
+      body: JSON.stringify({ name: data.name, link: data.link }),
     }).then((res) => this._checkResponse(res));
   }
 
