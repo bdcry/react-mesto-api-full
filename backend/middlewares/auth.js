@@ -1,28 +1,28 @@
-const jwt = require('jsonwebtoken');
-const AuthorizationError = require('../utils/errors/AuthorizationError');
+// const jwt = require('jsonwebtoken');
+// const AuthorizationError = require('../utils/errors/AuthorizationError');
 
-const extractBearerToken = (header) => header.replace('Bearer ', '');
+// const extractBearerToken = (header) => header.replace('Bearer ', '');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+// const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
+// module.exports = (req, res, next) => {
+//   const { authorization } = req.headers;
 
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    return next(new AuthorizationError('Необходима авторизация!'));
-  }
+//   if (!authorization || !authorization.startsWith('Bearer ')) {
+//     return next(new AuthorizationError('Необходима авторизация!'));
+//   }
 
-  const token = extractBearerToken(authorization);
-  let payload;
+//   const token = extractBearerToken(authorization);
+//   let payload;
 
-  try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
-  } catch (err) {
-    return next(new AuthorizationError('Необходима авторизация!'));
-  }
+//   try {
+//     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+//   } catch (err) {
+//     return next(new AuthorizationError('Необходима авторизация!'));
+//   }
 
-  req.user = payload; // записываем пейлоуд в объект запроса
+//   req.user = payload; // записываем пейлоуд в объект запроса
 
-  return next();
-};
+//   return next();
+// };
 

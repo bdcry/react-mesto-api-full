@@ -38,27 +38,22 @@ function App() {
   const [userEmail, setUserEmail] = React.useState(null);
   const history = useHistory();
 
-  
   React.useEffect(() => {
-    handlTokenCheck();
+    setIsLoading(true);
     if (loggedIn) {
-      history.push('/');
-    Promise.all([api.getInitialUser(), api.getInitialCards()])
+      Promise.all([api.getInitialUser(), api.getInitialCards()])
       .then(([userData, initialCards]) => {
-        const data = {
-          name: userData.name,
-          about: userData.about,
-          avatar: userData.avatar,
-          _id: userData._id,
-        };
-        setCurrentUser(data);
-        setCards(initialCards);
+        //установка данных пользователя
+        setCurrentUser(userData);
+        setCards(initialCards)
       })
-      .catch((err) => console.log(err));
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => setIsLoading(false));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
-
+  
   function handlTokenCheck() {
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
