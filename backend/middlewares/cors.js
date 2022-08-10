@@ -7,6 +7,9 @@ const allowedCors = [
     'http://localhost:3000',
     'https://localhost:3000',
     'localhost:3000',
+    '51.250.99.219',
+    'http://51.250.99.219/',
+    'https://51.250.99.219/',
   ];
   
   const corsRules = (req, res, next) => {
