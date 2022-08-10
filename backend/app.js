@@ -58,10 +58,8 @@ app.post(
   createUser,
 );
 
-// app.use('/', auth, usersRouter);
-// app.use('/', auth, cardsRouter);
-app.use('/', usersRouter);
-app.use('/', cardsRouter);
+app.use('/', auth, usersRouter);
+app.use('/', auth, cardsRouter);
 app.all('*', errorRouter);
 
 app.use(errorLogger); // подключаем логгер ошибок
