@@ -19,7 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "scp -r ./build/* bdcry@51.250.99.219:/home/bdcry/react-mesto-api-full/frontend"
+    "deploy": "scp -r ./build/* bdcry@51.250.99.219:/home/bdcry/react-mesto-api-full/frontend/build"
   },
   "eslintConfig": {
     "extends": [
