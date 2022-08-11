@@ -2,14 +2,20 @@
 const allowedCors = [
     'https://api.somethingawesome.students.nomoredomains.sbs/',
     'http://api.somethingawesome.students.nomoredomains.sbs/',
+    'http://api.somethingawesome.students.nomoredomains.sbs',
+    'https://api.somethingawesome.students.nomoredomains.sbs/',
     'https://somethingawesome.nomoredomains.sbs/',
     'http://somethingawesome.nomoredomains.sbs/',
+    'http://somethingawesome.nomoredomains.sbs',
+    'https://somethingawesome.nomoredomains.sbs',
     'http://localhost:3000',
     'https://localhost:3000',
     'localhost:3000',
     '51.250.99.219',
     'http://51.250.99.219/',
     'https://51.250.99.219/',
+    'http://51.250.99.219',
+    'https://51.250.99.219',
   ];
   
   const corsRules = (req, res, next) => {
