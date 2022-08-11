@@ -1,14 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors, celebrate, Joi } = require('celebrate');
+const bodyParser = require('body-parser');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const errorRouter = require('./routes/errors');
-const bodyParser = require('body-parser');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { corsRules } = require('./middlewares/cors');
+require('dotenv').config();
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -60,7 +61,7 @@ app.post(
 
 app.use('/', auth, usersRouter);
 app.use('/', auth, cardsRouter);
-app.all('*', errorRouter);
+app.all('*', auth, errorRouter);
 
 app.use(errorLogger); // подключаем логгер ошибок
 
